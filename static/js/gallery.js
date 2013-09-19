@@ -23,7 +23,8 @@ $(function() {
 		// Create thumbnails
 		for(var i=0; i < data.photos.length; i++){
 			photo = data.photos[i];
-			thumbnails += "<li><img index=" + photo.id + " src=" + '/static/' + photo.thumb_url + " alt='" + photo.title + "' title='" + photo.title + "' /></li>";
+			thumbnails += "<li><img index=" + photo.id + " src='/static/" + photo.thumb_url +
+										"' alt='" + photo.title + "' title='" + photo.title + "' /></li>";
 		}
 		$thumbnails.html(thumbnails);
 
