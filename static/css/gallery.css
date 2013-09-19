@@ -22,7 +22,8 @@ img {
 	box-sizing: border-box;
 }
 
-/* Header
+
+/* Navigation
 ---------------------------------------------- */
 .header {
 	width: 100%;
@@ -94,32 +95,15 @@ img {
 }
 
 
-#nav .prev {
-	left: 18px;
-}
+#nav .prev {left: 18px;}
+#nav .next {right: 18px;}
+#nav .prev:before {border-right: 10px solid #FFF;left: 10px;}
+#nav .next:before {border-left: 10px solid #FFF;right: 10px;}
+#nav .prev:active:before {border-right-color: #EEE;}
+#nav .next:active:before {border-left-color: #EEE;}
 
-#nav .prev:before {
-	border-right: 10px solid #FFF;
-	left: 10px;
-}
-
-#nav .prev:active:before {
-	border-right-color: #EEE;
-}
-
-#nav .next {
-	right: 18px;
-}
-
-#nav .next:before {
-	border-left: 10px solid #FFF;
-	right: 10px;
-}
-
-#nav .next:active:before {
-	border-left-color: #EEE;
-}
-
+/* Album Title
+---------------------------------------------- */
 
 #album {
 	margin: 0 68px;
@@ -132,7 +116,7 @@ img {
 	white-space: nowrap;
 }
 
-/* Displayed Photo
+/* Photo
 ---------------------------------------------- */
 
 #frame {
@@ -208,33 +192,12 @@ img {
 	border: 40px solid transparent;
 }
 
-.slider .prev {
-	right: 100%;
-	border-right: 25px solid rgba(255,255,255,.2);
-	border-left: none;
-}
-
-.slider .prev:hover {
-	border-right-color: rgba(255,255,255,.3);
-}
-
-.slider .prev:active {
-	border-right-color: rgba(255,255,255,.4);
-}
-
-.slider .next {
-	left: 100%;
-	border-left: 25px solid rgba(255,255,255,.2);
-	border-right: none;
-}
-
-.slider .next:hover {
-	border-left-color: rgba(255,255,255,.3);
-}
-
-.slider .next:active {
-	border-left-color: rgba(255,255,255,.4);
-}
+.slider .prev {right: 100%;border-right: 25px solid rgba(255,255,255,.2);border-left: none;}
+.slider .next {left: 100%;border-left: 25px solid rgba(255,255,255,.2);border-right: none;}
+.slider .prev:hover {border-right-color: rgba(255,255,255,.3);}
+.slider .next:hover {border-left-color: rgba(255,255,255,.3);}
+.slider .prev:active {border-right-color: rgba(255,255,255,.4);}
+.slider .next:active {border-left-color: rgba(255,255,255,.4);}
 
 /* Thumbnails
 ---------------------------------------------- */
@@ -272,9 +235,7 @@ img {
 	box-shadow: 0 0 2px #84e0f0;
 }
 
-#thumbnails img {
-	height: 70px;
-}
+#thumbnails img {height: 70px;}
 
 
 /* Responsiveness
