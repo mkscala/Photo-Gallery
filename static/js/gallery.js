@@ -33,12 +33,11 @@ $(function() {
 		thumbnail = $thumbnails.find("img[index='1']");
 		selectThumbnail(thumbnail);
 
-		// Display slider if not all thumbnails are shown
-		$thumbnails.children().each(function(){
-			thumbnails_width += $(this).outerWidth(true);
-		});
+		// Display slider if thumbnails overflow
+		$thumbnails.children().each(function(){thumbnails_width += $(this).outerWidth(true);});
 		$edge = $thumbnails.children(":first");
 		sliderDisplay();
+		displaySliderBtn('prev', false);
 
 		// Select thumbnail & image on click
 		$thumbnails.on('click', 'img', function(event){
@@ -61,6 +60,45 @@ $(function() {
 			setImage(currPhoto);
 		});
 	});
+
+
+	// Display slider based on window size
+	$(window).on('resize', function(){
+		sliderDisplay();
+		$thumbnails.children().css("display", "inline-block");
+		$edge = $thumbnails.children(":first");
+		displaySliderBtn('prev', false);
+		displaySliderBtn('next', true);
+	});
+
+
+	// Display prev or next thumbnail in slider
+	$slider.on('click', 'span', function(event){
+		var dir = event.target.className;
+		var $first = $thumbnails.children(":first");
+		var last_pos = getLastPos();
+		
+		if (dir.indexOf('prev') >= 0 && $first.css('display') == "none") {
+			$prev = $edge.prev();
+			if ($prev.length > 0) {$edge = $prev;} // update if prev exist
+			$edge.css('display', 'inline-block');
+
+			// toggle slider buttons
+			if ($first[0] === $edge[0]) {
+				displaySliderBtn('prev', false);
+			} else {
+				displaySliderBtn('next', true);
+			}
+		} else if(dir.indexOf('next') >= 0 && last_pos > 0) {
+			$edge.css('display', 'none');
+			$edge = $edge.next();
+
+			// toggle slider buttons
+			displaySliderBtn('prev', true);
+			if (getLastPos() === 0) {displaySliderBtn('next', false);}
+		}
+	});
+
 
 	function setImage(photoID) {
 		if (photoID > 0 && photoID <= photos.length) {
@@ -98,26 +136,18 @@ $(function() {
 		}
 	}
 
-	// Display slider based on window size
-	$(window).on('resize', function(){
-		sliderDisplay();
-		$thumbnails.children().css("display", "inline-block");
-		$edge = $thumbnails.children(":first");
-	});
-
-	// Display prev or next thumbnail in slider
-	$slider.on('click', 'span', function(event){
-		var dir = event.target.className;
-		var $last = $thumbnails.children(":last");
-		var last_pos = $last.position().top; // get position of last thumbnail for overflow check
-		
-		if (dir.indexOf('prev') >= 0 && $edge.css('display') != "None") {
-			$prev = $edge.prev();
-			if ($prev.length > 0) {$edge = $prev;} // check if prev exist
-			$edge.css('display', 'inline-block');
-		} else if(dir.indexOf('next') >= 0 && last_pos > 0) {
-			$edge.css('display', 'none');
-			$edge = $edge.next();
+	function displaySliderBtn(dir, display) {
+		$btn = $slider.children('.' + dir);
+		if (display) {
+			$btn.removeClass('disable');
+		} else {
+			$btn.addClass('disable');
 		}
-	});
+	}
+
+	function getLastPos() {
+		var $last = $thumbnails.children(":last");
+		return $last.position().top; // get position of last thumbnail for overflow check
+	}
+
 });
