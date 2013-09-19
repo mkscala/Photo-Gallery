@@ -2,7 +2,7 @@ $(function() {
 	var $album = $('#album');
 	var $frame = $('#frame');
 	var $nav = $('#nav');
-	var $image = $frame.children('.image');
+	var $image = $frame.children('.photo');
 	var $title = $frame.children('.title');
 	var $data = $frame.children('.data');
 	var $thumbnails = $('#thumbnails');
