@@ -9,5 +9,5 @@ pip install -r requirements.txt
 python app.py
 ```
 
-
+Photo Gallery Preview
 ![alt text](https://raw.github.com/evac/Photo-Gallery/master/static/img/screenshot.png "Photo Gallery")
