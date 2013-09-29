@@ -1,37 +1,37 @@
 $(function() {
-	var $album = $('#album');
+	var $header = $("#header");
 	var $frame = $('#frame');
-	var $nav = $('#nav');
-	var $image = $frame.children('.photo');
-	var $title = $frame.children('.title');
-	var $data = $frame.children('.data');
-	var $thumbnails = $('#thumbnails');
 	var $slider = $('#slider');
+	var $themes = $("#themes");
+	var $nav = $('#nav');
+	var $image = $frame.find('.photo');
+	var $caption = $frame.children('.photo-caption');
+	var $thumbnails = $slider.children('#thumbnails');
 	var $slider_btn = $slider.children('span');
 	var thumbnails_width = 0;
 	var $edge;
 	var $selected;
 	var currPhoto;
 
-	// Get gallery json data
+	// Get gallery json data & initialize page
 	$.getJSON('/gallery_json', function(data) {
 		data = JSON.parse(data);
-		$album.text(data.album.name);
+		$header.children('.album').text(data.album.name);
 		photos = data.photos;
 		thumbnails = "";
 		
 		// Create thumbnails
 		for(var i=0; i < data.photos.length; i++){
 			photo = data.photos[i];
-			thumbnails += "<li><img index=" + photo.id + " src='/static/" + photo.thumb_url +
+			thumbnails += "<li><img data-index=" + photo.id + " src='/static/" + photo.thumb_url +
 										"' alt='" + photo.title + "' title='" + photo.title + "' /></li>";
 		}
 		$thumbnails.html(thumbnails);
 
 		// Select first photo and thumbnail by default
-		currPhoto = 1;
-		setImage(1);
-		thumbnail = $thumbnails.find("img[index='1']");
+		currPhoto = parseInt(photos[0].id, 10);
+		setImage(currPhoto);
+		thumbnail = $thumbnails.children(":first");
 		selectThumbnail(thumbnail);
 
 		// Display slider if thumbnails overflow
@@ -40,28 +40,31 @@ $(function() {
 		sliderDisplay();
 		displaySliderBtn('prev', false);
 
-		// Select thumbnail & image on click
-		$thumbnails.on('click', 'img', function(event){
-			var photoID = parseInt(event.target.getAttribute('index'), 10);
-			setImage(photoID);
-			selectThumbnail(event.target, photoID);
-			currPhoto = photoID;
-		});
-
-		// Display next or previous photo on click
-		$nav.on('click', 'button', function(event){
-			var dir = event.target.className;
-			if (dir.indexOf('prev') >= 0 && currPhoto > 1) {
-				currPhoto--;
-				prevThumbnail();
-			} else if (dir.indexOf('next') >= 0 && currPhoto < photos.length) {
-				currPhoto++;
-				nextThumbnail();
-			}
-			setImage(currPhoto);
-		});
+		// Make page visible
+		$('body').css("opacity", "1");
 	});
 
+	// Select thumbnail & image on click
+	$thumbnails.on('click', 'img', function(event){
+		$this = $(this);
+		var photoID = parseInt($this.data('index'), 10);
+		setImage(photoID);
+		selectThumbnail($this.parent('li'), photoID);
+		currPhoto = photoID;
+	});
+
+	// Display next or previous photo on click
+	$nav.on('click', 'button', function(event){
+		var dir = this.className;
+		if (dir.indexOf('prev') >= 0 && currPhoto > 1) {
+			currPhoto--;
+			prevThumbnail();
+		} else if (dir.indexOf('next') >= 0 && currPhoto < photos.length) {
+			currPhoto++;
+			nextThumbnail();
+		}
+		setImage(currPhoto);
+	});
 
 	// Display slider based on window size
 	$(window).on('resize', function(){
@@ -100,19 +103,40 @@ $(function() {
 		}
 	});
 
+	// Toggle gallery theme styles
+	$themes.on('click', 'span', function(event){
+		$this = $(this);
+		theme = $this.data('theme');
+
+		if (!$this.hasClass('active')) {
+			if(theme == "another") {
+				$('link[href="/static/css/original.min.css"]').attr({href: "/static/css/another.min.css"});
+				$nav.appendTo("#frame");
+				$caption.appendTo(".photo-wrapper");
+			} else {
+				$('link[href="/static/css/another.min.css"]').attr({href: "/static/css/original.min.css"});
+				$nav.appendTo("#header");
+				$caption.appendTo("#frame");
+			}
+
+			$themes.children('.active').removeClass('active');
+			$this.addClass('active');
+		}
+
+	});
 
 	function setImage(photoID) {
 		if (photoID > 0 && photoID <= photos.length) {
 			var photo = photos[photoID - 1];
 			$image.attr('src', '/static/' + photo.url);
-			$title.text(photo.title);
-			$data.text("Taken on " + photo.date + " in " + photo.location);
+			$caption.children('.title').text(photo.title);
+			$caption.children(".data").text("Taken on " + photo.date + " in " + photo.location);
 		}
 	}
 
 	function selectThumbnail(thumbnail) {
 		if ($selected) {$selected.removeClass('selected');}
-		$selected = $(thumbnail).parent('li'); // update $selected
+		$selected = $(thumbnail); // update $selected
 		$selected.addClass('selected');
 	}
 
