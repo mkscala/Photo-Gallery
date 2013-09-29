@@ -1,18 +1,22 @@
 {% extends 'base.html' %}
 {% block body %}
 <div class="wrapper">
-	<div class="header">
+	<div id="header">
 		<div id="nav">
 			<button class="prev"></button>
 			<button class="next"></button>
 		</div>
-		<div id="album">
+		<div class="album">
 		</div>
 	</div>
 	<div id="frame">
-		<img class="photo" />
-		<div class="title"></div>
-		<div class="data"></div>
+		<div class="photo-wrapper">
+			<img class="photo" />
+		</div>
+		<div class="photo-caption">
+			<div class="title"></div>
+			<div class="data"></div>
+		</div>
 	</div>
 	<div class="gallery">
 		<div id="slider" class="slider">
@@ -21,6 +25,9 @@
 			<span class="prev"></span>
 			<span class="next"></span>
 		</div>
+	</div>
+	<div id="themes" class="themes">
+			<span class="active" data-theme="original">Original Style</span> | <span data-theme="another">Another Style</span>
 	</div>
 </div>
 {% endblock %}
