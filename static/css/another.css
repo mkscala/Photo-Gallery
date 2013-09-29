@@ -62,7 +62,7 @@ img {
 	height: 76px;
 	width: 40px;
 	margin: -76px 15px 0;
-	background: url("/static/img/slider-arrows-2.png");
+	background: url("/static/img/slider-arrows.png");
 	cursor: pointer;
 	opacity: .8;
 	border: none;
@@ -71,6 +71,7 @@ img {
 	-ms-box-shadow: none;
 	-o-box-shadow: none;
 	box-shadow: none;
+	outline: none;
 }
 
 #nav button:hover {
@@ -109,6 +110,7 @@ img {
 }
 
 .photo-wrapper {
+	z-index: 1;
 	display: inline-block;
 	position: relative;
 	padding: 10px;
@@ -297,7 +299,7 @@ img {
 	#header {height: 60px; font-size: 20px; line-height: 60px;}
 	#frame {padding: 0;}
 	#frame:hover #nav {opacity: 1;}
-	#nav {width: 75%; z-index: 1; opacity: 0;}
+	#nav {width: 75%; z-index: 10; opacity: 0;}
 	#nav button {top: 60%; opacity: .4;}
 	#nav button:hover {opacity: .6;}
 	.photo-wrapper {width: 100%; padding: 0;}
