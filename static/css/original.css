@@ -1,3 +1,5 @@
+/* The original mockup style */
+
 /* Defaults
 ---------------------------------------------- */
 
@@ -8,6 +10,7 @@ body {
 	background: #58616b;
 	font-family: Arial, sans-serif;
 	line-height: 120%;
+	opacity: 0;
 }
 
 img {
@@ -25,7 +28,7 @@ img {
 
 /* Navigation
 ---------------------------------------------- */
-.header {
+#header {
 	width: 100%;
 	background: #EEE;
 	height: 54px;
@@ -39,7 +42,10 @@ img {
 }
 
 #nav {
-	position: relative;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
 }
 
 #nav button {
@@ -68,8 +74,6 @@ img {
 	content: "";
 	position: absolute;
 	top: 7px;
-	width: 0px;
-	height: 0px;
 	border: 5px solid transparent;
 }
 
@@ -105,7 +109,7 @@ img {
 /* Album Title
 ---------------------------------------------- */
 
-#album {
+.album {
 	margin: 0 68px;
 	text-align: center;
 	font-size: 30px;
@@ -120,6 +124,7 @@ img {
 ---------------------------------------------- */
 
 #frame {
+	position: relative;
 	padding: 22px;
 	text-align: center;
 	background-color: #e8e8e8;
@@ -131,10 +136,11 @@ img {
 	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#1e8e8e8, endColorstr=#1b8b7b6)";	
 }
 
-#frame .photo {
-	max-height: 420px;
+.photo-wrapper {
+	display: inline-block;
+	position: relative;
 	padding: 6px;
-	background: white;
+	background: #FFF;
 	border: 1px solid #AAA;
 	-webkit-box-shadow: 0 0px 1px rgba(0,0,0,.1);
 	-moz-box-shadow: 0 0px 1px rgba(0,0,0,.1);
@@ -143,14 +149,19 @@ img {
 	box-shadow: 0 0px 1px rgba(0,0,0,.1);
 }
 
-#frame .title {
+.photo {
+	max-height: 420px;
+	display: block;
+}
+
+.title {
 	margin-top: 8px;
 	font-size: 24px;
 	color: #444;
 	line-height: 130%;
 }
 
-#frame .data {
+.data {
 	font-size: 15px;
 	color: #666;
 }
@@ -250,5 +261,28 @@ img {
 ---------------------------------------------- */
 
 @media(max-width:480px) {
-	#album {font-size: 20px; line-height: 54px;}
+	.album {font-size: 20px; line-height: 54px;}
+}
+
+
+/* Theme Options
+---------------------------------------------- */
+
+.themes {
+	position: relative;
+	width: 100%;
+	margin: 20px 0;
+	text-align: center;
+	color: rgba(255,255,255,.3);
+	letter-spacing: 1px;
+}
+
+.themes span:hover {
+	cursor: pointer;
+	color: rgba(255,255,255,.6);
+}
+
+.themes .active, .themes .active:hover {
+	cursor: default;
+	color: rgba(255,255,255,.5);
 }
