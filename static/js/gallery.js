@@ -31,14 +31,17 @@ $(function() {
 		// Select first photo and thumbnail by default
 		currPhoto = parseInt(photos[0].id, 10);
 		setImage(currPhoto);
-		thumbnail = $thumbnails.children(":first");
-		selectThumbnail(thumbnail);
+		firstThumbnail = $thumbnails.children(":first");
+		selectThumbnail(firstThumbnail);
 
-		// Display slider if thumbnails overflow
-		$thumbnails.children().each(function(){thumbnails_width += $(this).outerWidth(true);});
-		$edge = $thumbnails.children(":first");
-		sliderDisplay();
-		displaySliderBtn('prev', false);
+		// Calculate and initiate slider if thumbnails overflow
+		var first = firstThumbnail.children("img"); // check if loaded
+		if (first[0].complete) {
+			initSlider();
+		} else {
+			// init slider after thumbnail images load
+			first.load(initSlider);
+		}
 
 		// Make page visible
 		$('body').css("opacity", "1");
@@ -88,11 +91,9 @@ $(function() {
 			$edge.css('display', 'inline-block');
 
 			// toggle slider buttons
-			if ($first[0] === $edge[0]) {
-				displaySliderBtn('prev', false);
-			} else {
-				displaySliderBtn('next', true);
-			}
+			if ($first[0] === $edge[0]) {displaySliderBtn('prev', false);}
+			displaySliderBtn('next', true);
+
 		} else if(dir.indexOf('next') >= 0 && last_pos > 0) {
 			$edge.css('display', 'none');
 			$edge = $edge.next();
@@ -150,6 +151,13 @@ $(function() {
 		$selected.removeClass('selected');
 		$selected = $selected.next(); // update $selected
 		$selected.addClass('selected');
+	}
+
+	function initSlider(){
+		$thumbnails.children().each(function(){thumbnails_width += $(this).outerWidth(true);});
+		$edge = $thumbnails.children(":first");
+		sliderDisplay();
+		displaySliderBtn('prev', false);
 	}
 
 	function sliderDisplay() {
